@@ -30,6 +30,10 @@ interface State {
 
 
   render() {
+    const animationTiming = {
+      enter: 400,
+      exit: 5000
+    }
     const duration = 3000;//change beetween transition
     //in Determines if component should be visible
     return (
@@ -45,6 +49,13 @@ interface State {
       <Transition 
       mountOnEnter
       unmountOnExit
+      onEnter={() => console.log('onEnter')}
+      onEntering={() => console.log('onEntering')}
+      onEntered={() => console.log('onEntered')}
+      onExit={() => console.log('onExit')}
+      onExiting={() => console.log('onExiting')}
+      onExited={() => console.log('onExited')}
+
       in={this.state.showBlock} 
       timeout={duration}>
         {state => (
@@ -63,10 +74,10 @@ interface State {
           mountOnEnter
           unmountOnExit
           in={this.state.modalIsOpen}
-          timeout={300}
+          timeout={animationTiming}
       >
         {state =>(
-            <Modal  show={state} closed={this.closeModal}/>
+            <Modal  show={this.state.modalIsOpen} closed={this.closeModal}/>
         )}
       </Transition>
       
