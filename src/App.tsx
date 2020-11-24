@@ -30,7 +30,7 @@ interface State {
 
 
   render() {
-    const duration = 300;//change beetween transition
+    const duration = 3000;//change beetween transition
     //in Determines if component should be visible
     return (
       <div className="App">
@@ -42,7 +42,11 @@ interface State {
         });
       }}>Toogle</button>
 
-      <Transition in={this.state.showBlock} timeout={duration}>
+      <Transition 
+      mountOnEnter
+      unmountOnExit
+      in={this.state.showBlock} 
+      timeout={duration}>
         {state => (
 
         <div style={{
@@ -50,15 +54,24 @@ interface State {
           width: 100,
           height: 100,
           margin: 'auto',
-          opacity: state === 'exited' ? 0 : 1
+          transition: 'opacity 1s ease-out',
+          opacity: state === 'exiting' ? 0 : 1
         }}></div> 
         )}
-
       </Transition>
-
+      <Transition
+          mountOnEnter
+          unmountOnExit
+          in={this.state.modalIsOpen}
+          timeout={300}
+      >
+        {state =>(
+            <Modal  show={state} closed={this.closeModal}/>
+        )}
+      </Transition>
       
-      {this.state.modalIsOpen ?<Modal  show={this.state.modalIsOpen} closed={this.closeModal}/> :null}
-      {this.state.modalIsOpen? <Backdrop show={this.state.modalIsOpen}/> : null}
+
+      <Backdrop show={this.state.modalIsOpen}/> 
       <button className="Button" onClick={this.showModal}>Open Modal</button>
       <h3>Animating Lists</h3>
       <List />
